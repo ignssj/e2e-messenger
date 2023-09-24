@@ -6,9 +6,9 @@
   "author": "ignacio",
   "license": "MIT",
   "scripts": {
-    "dev": "npx nodemon src/server.ts --watch 'src/' -e ts",
+    "dev": "npx nodemon src/app.ts --watch 'src/' -e ts",
     "build": "rm -rf ./build && npx tsc",
-    "start": "node ./build/server.js"
+    "start": "node ./build/app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
