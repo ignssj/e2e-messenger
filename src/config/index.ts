@@ -1,7 +1,10 @@
-require("dotenv").config();
+require('dotenv').config();
 
-module.exports = {
-  PORT: process.env.PORT,
+export const dbConfig = {
   DB_USER: process.env.DB_USER,
   DB_PASS: process.env.DB_PASS,
+};
+
+export const appConfig = {
+    PORT: process.env.PORT
 };

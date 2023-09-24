@@ -1,8 +1,8 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const {createUser} = require('./createUser');
+import {createUser} from '../../controllers/users/create';
 
-router.post("", createUser);
+router.post('', createUser);
 //router.get("", getUsers);
 //router.get("/:id", getUserById);
 //router.put("/:id", updateUser);

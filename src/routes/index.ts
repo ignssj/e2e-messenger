@@ -1,6 +1,6 @@
-import express from 'express';
+import {Router} from 'express';
 import users from './users/';
-const router = express.Router();
+const router = Router();
 
 //router.use("/passwords", passwords);
 router.use('/users', users);
