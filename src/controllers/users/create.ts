@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from 'express';
 import { validation } from '../../middleware/validation';
+import {StatusCodes} from 'http-status-codes';
 import * as yup from 'yup';
 
 interface IUser {
@@ -22,5 +23,5 @@ export const createValidation = validation((getSchema) => ({
 }));
 
 export const createUser = async (req: Request<{},{},IUser>, res: Response) => {
-    return res.status(200).send('Create user');
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Create - Not implemented');
 };
