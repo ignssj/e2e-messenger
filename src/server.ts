@@ -14,11 +14,11 @@ db.once("open", function () {
   console.log('database connection succeeded');
 });
  
-const app = express();
-app.use(morgan('tiny'));
-app.use(cors());
-app.use(helmet());
-app.use(express.json());
-app.use("/api", routers);
+const server = express();
+server.use(morgan('tiny'));
+server.use(cors());
+server.use(helmet());
+server.use(express.json());
+server.use("/api", routers);
 
-export default app;
+export default server;
