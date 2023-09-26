@@ -4,16 +4,15 @@ import {StatusCodes} from 'http-status-codes';
 import * as yup from 'yup';
 
 interface IParamProps {
-    id: number;
+    id?: number;
 }
 
 export const getByIdValidation = validation((getSchema) => ({
-    query: getSchema<IParamProps>(yup.object({
-        id: yup.number().required().moreThan(0)
+    params: getSchema<IParamProps>(yup.object({
+        id: yup.number().integer().required().moreThan(0)
     })),
 }));
 
 export const getById = async (req: Request<IParamProps>, res: Response) => {
-    console.log(req.params.id);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('GetById - Not implemented');
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`GetById - ${req.params.id} - Not implemented`);
 };
