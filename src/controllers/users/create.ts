@@ -8,17 +8,10 @@ interface IUser {
     password: string;
 }
 
-interface IFilter {
-    filter: string;
-}
-
 export const createValidation = validation((getSchema) => ({
     body: getSchema<IUser>(yup.object({
         username: yup.string().required().min(5),
         password: yup.string().required().min(6),
-    })),
-    query: getSchema<IFilter>(yup.object({
-        filter: yup.string().required()
     })),
 }));
 
