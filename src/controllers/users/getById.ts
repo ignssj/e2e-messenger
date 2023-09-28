@@ -1,18 +1,25 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/validation';
 import {StatusCodes} from 'http-status-codes';
+import { User } from '../../models/users';
 import * as yup from 'yup';
 
 interface IParamProps {
-    id?: number;
+    id?: string;
 }
 
 export const getByIdValidation = validation((getSchema) => ({
     params: getSchema<IParamProps>(yup.object({
-        id: yup.number().integer().required().moreThan(0)
+        id: yup.string().required()
     })),
 }));
 
 export const getById = async (req: Request<IParamProps>, res: Response) => {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`GetById - ${req.params.id} - Not implemented`);
+    const {id} = req.body;
+    console.log(id);
+    const user = await User.findById(id);
+    if(!user){
+        return res.status(404).send('User not found');
+    }
+    return res.status(StatusCodes.OK).send(user);
 };

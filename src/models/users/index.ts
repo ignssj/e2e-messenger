@@ -1,6 +1,33 @@
 import mongoose from 'mongoose';
-import userSchema from './user-schema';
+import { userSchema } from './schema';
 
-const User = mongoose.model('users', userSchema);
+// Class Props
+interface IUser {
+    username: string;
+    password: string;
+}
 
-export default User;
+// Builder Type
+interface UserModelInterface extends mongoose.Model<UserDoc> {
+    build(attr: IUser): UserDoc
+}
+
+// Return Type
+interface UserDoc extends mongoose.Document {
+    _id: string;
+    username: string;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// Build Implementation
+userSchema.statics.build = (attr: IUser) => {
+    return new User(attr);
+};
+
+// Model Creation
+const User = mongoose.model<UserDoc,UserModelInterface>('users', userSchema);
+
+
+export { User };
