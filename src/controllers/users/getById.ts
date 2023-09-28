@@ -15,8 +15,7 @@ export const getByIdValidation = validation((getSchema) => ({
 }));
 
 export const getById = async (req: Request<IParamProps>, res: Response) => {
-    const {id} = req.body;
-    console.log(id);
+    const {id} = req.params;
     const user = await User.findById(id);
     if(!user){
         return res.status(404).send('User not found');

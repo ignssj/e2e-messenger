@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/validation';
 import {StatusCodes} from 'http-status-codes';
+import { User } from '../../models/users';
 import * as yup from 'yup';
 
 interface IQueryProps {
@@ -20,5 +21,9 @@ export const getAllValidation = validation((getSchema) => ({
 export const getAll = async (req: Request<{},{},{},IQueryProps>, res: Response) => {
     res.setHeader('access-control-expose-headers', 'x-total-count');
     res.setHeader('x-total-count', 1);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('GetAll - Not implemented');
+    const users = await User.find();
+    if(!users.length){
+        return res.status(StatusCodes.NO_CONTENT);
+    }
+    return res.status(StatusCodes.OK).send(users);
 };
