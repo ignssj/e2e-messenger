@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Schema, ValidationError } from "yup";
+import mongoose from 'mongoose';
 
 type TProperty = 'header' | 'body' | 'params' | 'query';
 type TGetSchema = <T>(schema: Schema<T>) => Schema<T> 
@@ -8,6 +9,9 @@ type TAllSchemas = Record<TProperty, Schema<any>>
 type TValidation = (getAllSchemas: TGetAllSchemas) => RequestHandler;
 
 export const validation: TValidation = (getAllSchemas) => async (req, res, next) => {
+    if(req.params.id && !mongoose.Types.ObjectId.isValid(req.params.id)){
+        return res.status(400).send({msg: 'Invalid id'});
+    }
     const schemas = getAllSchemas(schema => schema);
     const errorsResult : Record<string, Record<string, string>> = {};
     Object.entries(schemas).forEach(([key, schema]) => {

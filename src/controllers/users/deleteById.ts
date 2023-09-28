@@ -18,7 +18,7 @@ export const deleteById = async (req: Request<IParamProps>, res: Response) => {
     const {id} = req.params;
     const deletedUser = await User.findOneAndDelete({_id: id});
     if(!deletedUser){
-        return res.status(StatusCodes.NOT_FOUND).send({});
+        return res.status(StatusCodes.NOT_FOUND).send({msg: 'User not found'});
     }
-    return res.status(StatusCodes.OK).send({});
+    return res.status(StatusCodes.NO_CONTENT).send({});
 };

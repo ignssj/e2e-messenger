@@ -23,7 +23,7 @@ export const getAll = async (req: Request<{},{},{},IQueryProps>, res: Response) 
     res.setHeader('x-total-count', 1);
     const users = await User.find();
     if(!users.length){
-        return res.status(StatusCodes.NO_CONTENT);
+        return res.status(StatusCodes.NO_CONTENT).send({});
     }
     return res.status(StatusCodes.OK).send(users);
 };
