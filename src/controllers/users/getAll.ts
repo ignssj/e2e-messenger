@@ -19,11 +19,15 @@ export const getAllValidation = validation((getSchema) => ({
 }));
 
 export const getAll = async (req: Request<{},{},{},IQueryProps>, res: Response) => {
-    res.setHeader('access-control-expose-headers', 'x-total-count');
-    res.setHeader('x-total-count', 1);
-    const users = await User.find();
-    if(!users.length){
-        return res.status(StatusCodes.NO_CONTENT).send({});
+    try{
+        res.setHeader('access-control-expose-headers', 'x-total-count');
+        res.setHeader('x-total-count', 1);
+        const users = await User.find();
+        if(!users.length){
+            return res.status(StatusCodes.NO_CONTENT).send({});
+        }
+        return res.status(StatusCodes.OK).send(users);
+    }catch(err){
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Interal error');
     }
-    return res.status(StatusCodes.OK).send(users);
 };
