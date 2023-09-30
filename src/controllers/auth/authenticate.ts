@@ -20,10 +20,10 @@ export const authenticate = async(req: Request<{},{},IUser>, res: Response) => {
             return res.status(StatusCodes.BAD_REQUEST).send({'msg': 'User doesnt exist in our database'})
         }
         const authenticated = bcrypt.compareSync(password, userExist.password);
-        if(authenticated){
-            return res.status(StatusCodes.OK).send({'msg': "User authenticated"});
+        if(!authenticated){
+            return res.status(StatusCodes.BAD_REQUEST).send({'msg': 'Wrong credentials'})
         }
-        return res.status(StatusCodes.BAD_REQUEST).send({'msg': 'Wrong credentials'})
+        return res.status(StatusCodes.OK).send({'msg': "User authenticated"});
     }catch(err){
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({'error': 'Interal error'});
     }
