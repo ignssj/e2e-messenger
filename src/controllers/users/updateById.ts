@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { validation } from '../../middleware/validation';
+import { validation } from '../../middleware/requestValidation';
 import {StatusCodes} from 'http-status-codes';
 import * as yup from 'yup';
 import { User } from '../../models/users';

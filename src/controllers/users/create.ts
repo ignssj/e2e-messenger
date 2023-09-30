@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { validation } from '../../middleware/validation';
+import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
 import { User, IUser } from '../../models/users';
 import bcrypt from 'bcrypt';
