@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { User } from '../../models/users';
 
 interface IParamProps {
-    id: string;
+    id?: string;
 }
 
 interface IBodyParams {
@@ -18,12 +18,12 @@ export const updateByIdValidation = validation((getSchema) => ({
         id: yup.string().required(),
     })),
     body: getSchema<IBodyParams>(yup.object({
-        username: yup.string().required().min(5),
+        username: yup.string().required().min(6),
         password: yup.string().required().min(6),
     })),
 }));
 
-export const updateById = async (req: Request<IParamProps, IBodyParams>, res: Response) => {
+export const updateById = async (req: Request<IParamProps, {}, IBodyParams>, res: Response) => {
     try{
         const {id} = req.params;
         const {username, password} = req.body;
@@ -33,6 +33,6 @@ export const updateById = async (req: Request<IParamProps, IBodyParams>, res: Re
         }
         return res.status(StatusCodes.OK).send(updatedUser);
     }catch(err){
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Interal error');
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Interal error"});
     }
 };

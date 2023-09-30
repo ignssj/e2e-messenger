@@ -23,7 +23,7 @@ export const deleteById = async (req: Request<IParamProps>, res: Response) => {
         }
         return res.status(StatusCodes.NO_CONTENT).send({});
     }catch(err){
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Interal error');
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Interal error"});
     }
 };
     
