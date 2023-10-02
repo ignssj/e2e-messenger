@@ -19,10 +19,10 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
         const {id} = req.params;
         const user = await User.findById(id);
         if(!user){
-            return res.status(404).send('User not found');
+            return res.status(StatusCodes.NOT_FOUND).send({error: 'User not found'});
         }
         return res.status(StatusCodes.OK).send(user);
     }catch(err){
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Interal error"});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: 'Interal error'});
     }
 };

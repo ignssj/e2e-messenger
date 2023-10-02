@@ -1,11 +1,9 @@
 import express from 'express';
-const router = express.Router();
 import { tokenValidation } from '../../middleware/tokenValidation';
-import {createUser, createValidation} from '../../controllers/users/create';
-import {getAll, getAllValidation} from '../../controllers/users/getAll';
-import {getById, getByIdValidation} from '../../controllers/users/getById';
-import {updateById, updateByIdValidation} from '../../controllers/users/updateById';
-import {deleteById, deleteByIdValidation} from '../../controllers/users/deleteById';
+import { UsersController } from '../../controllers';
+
+const router = express.Router();
+const {createValidation, getByIdValidation, getAllValidation, deleteByIdValidation, updateByIdValidation, createUser, getAll, getById, updateById, deleteById} = UsersController;
 
 router.post('', createValidation, createUser);
 router.get('', tokenValidation, getAllValidation, getAll);

@@ -10,7 +10,7 @@ type TValidation = (getAllSchemas: TGetAllSchemas) => RequestHandler;
 
 export const validation: TValidation = (getAllSchemas) => async (req, res, next) => {
     if(req.params.id && !mongoose.Types.ObjectId.isValid(req.params.id)){
-        return res.status(400).send({msg: 'Invalid id'});
+        return res.status(400).send({error: 'Invalid id'});
     }
     const schemas = getAllSchemas(schema => schema);
     const errorsResult : Record<string, Record<string, string>> = {};
