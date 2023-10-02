@@ -25,7 +25,7 @@ export const authenticate = async(req: Request<{},{},IUser>, res: Response) => {
         if(!authenticated){
             return res.status(StatusCodes.BAD_REQUEST).send({'msg': 'Wrong credentials'})
         }
-        const token = jwt.sign({_id: userExist._id?.toString, name: userExist.username}, key, {expiresIn: 60} )
+        const token = jwt.sign({_id: userExist._id?.toString, name: userExist.username}, key, {expiresIn: '1d'} )
         return res.status(StatusCodes.OK).send({token});
     }catch(err){
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({'error': 'Interal error'});

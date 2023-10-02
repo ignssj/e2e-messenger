@@ -29,7 +29,7 @@ export const updateById = async (req: Request<IParamProps, {}, IBodyParams>, res
         const {username, password} = req.body;
         const updatedUser = await User.findOneAndUpdate({_id: id},{username, password},{new: true});
         if(!updatedUser){
-            return res.status(StatusCodes.NO_CONTENT);
+            return res.status(StatusCodes.NO_CONTENT).send({});
         }
         return res.status(StatusCodes.OK).send(updatedUser);
     }catch(err){
