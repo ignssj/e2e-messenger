@@ -7,21 +7,23 @@ import * as yup from 'yup';
 
 interface IBody {
     username: string;
-    password: string
+    password: string;
+    publicKey: string;
 }
 
 export const createValidation = validation((getSchema) => ({
     body: getSchema<IUser>(yup.object({
         username: yup.string().required().min(6),
         password: yup.string().required().min(6),
+        publicKey: yup.string().required().min(256),
     })),
 }));
 
 export const createUser = async (req: Request<{},{},IBody>, res: Response) => {
-    const {username, password} = req.body;
+    const {username, password, publicKey} = req.body;
     try{
         bcrypt.hash(password, 15, async function(err, hash) {
-            const user = User.build({username, password: hash});
+            const user = User.build({username, publicKey, password: hash});
             const response = await user.save();
             return res.status(StatusCodes.CREATED).send(response);
         });

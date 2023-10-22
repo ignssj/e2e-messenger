@@ -5,6 +5,7 @@ import { userSchema } from './schema';
 interface IUser {
     username: string;
     password: string;
+    publicKey: string;
 }
 
 // Builder Type
@@ -17,6 +18,7 @@ interface UserDoc extends mongoose.Document {
     _id: string;
     username: string;
     password: string;
+    publicKey: string;
     createdAt: Date;
     updatedAt: Date;
 }
