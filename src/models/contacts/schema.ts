@@ -1,22 +1,25 @@
 import mongoose from 'mongoose';
 
-// db schema definition
-const userSchema = new mongoose.Schema(
+const contactSchema = new mongoose.Schema(
   {
-    username: {
+    userid: {
+        type: String,
+        required: true,
+    },
+    contact_userid: {
       type: String,
       required: true,
     },
-    password: {
+    name: {
       type: String,
       required: true,
     },
     publicKey: {
         type: String,
         required: true,
-    }
+    },
   },
   { timestamps: true }
 );
 
-export { userSchema };
+export { contactSchema };

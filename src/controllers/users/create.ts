@@ -15,7 +15,7 @@ export const createValidation = validation((getSchema) => ({
     body: getSchema<IUser>(yup.object({
         username: yup.string().required().min(6),
         password: yup.string().required().min(6),
-        publicKey: yup.string().required().min(256),
+        publicKey: yup.string().required().min(6),
     })),
 }));
 
