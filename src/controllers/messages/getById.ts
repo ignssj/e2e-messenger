@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { findOneMessage } from '../../repositories/messages';
+import { findOne } from '../../repositories';
+import { Message } from '../../models/messages';
 import { IGet } from '../../types';
 
 export const getById = async (req: Request<IGet>, res: Response) => {
@@ -9,7 +10,7 @@ export const getById = async (req: Request<IGet>, res: Response) => {
         return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
     }
     try{
-        const message = await findOneMessage(id);
+        const message = await findOne(Message, id);
         if(!message){
             return res.status(StatusCodes.NOT_FOUND).send({error: 'Message not found'});
         }

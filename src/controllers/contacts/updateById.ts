@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IContact } from '../../models/contacts';
+import { IContact, Contact } from '../../models/contacts';
+import { updateOne } from '../../repositories';
 import { IPut } from '../../types';
-import { updateOneContact } from '../../repositories/contacts';
 import * as yup from 'yup';
 
 export const updateByIdValidation = validation((getSchema) => ({
@@ -24,7 +24,7 @@ export const updateById = async (req: Request<IPut, {}, IContact>, res: Response
         return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
     }
     try{
-        const updated = await updateOneContact(id, {userid, contact_userid, name});
+        const updated = await updateOne(Contact, id, {userid, contact_userid, name});
         if(!updated){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }

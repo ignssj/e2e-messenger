@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IUser } from '../../models/users';
-import { createOneUser } from '../../repositories/users';
+import { IUser, User } from '../../models/users';
+import { createOne } from '../../repositories';
 import bcrypt from 'bcrypt';
 import * as yup from 'yup';
 
@@ -18,7 +18,7 @@ export const createUser = async (req: Request<{},{},IUser>, res: Response) => {
     const {username, password, publicKey} = req.body;
     try{
         bcrypt.hash(password, 15, async function(err, hash) {
-            const user = await createOneUser({username, publicKey, password: hash});
+            const user = await createOne(User, {username, publicKey, password: hash});
             if(!user){
                 throw new Error();
             }

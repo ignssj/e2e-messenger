@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IContact } from '../../models/contacts';
-import { createOneContact } from '../../repositories/contacts';
-import { findOneUser } from '../../repositories/users';
+import { IContact, Contact } from '../../models/contacts';
+import { createOne } from '../../repositories';
+import { findOne } from '../../repositories';
 import * as yup from 'yup';
 
 export const addValidation = validation((getSchema) => ({
@@ -17,11 +17,11 @@ export const addValidation = validation((getSchema) => ({
 export const addContact = async (req: Request<{},{},IContact>, res: Response) => {
     const {contact_userid, name, userid} = req.body;
     try{
-        const user = await findOneUser(contact_userid);
+        const user = await findOne(Contact, contact_userid);
         if(!user){
             return res.status(StatusCodes.NOT_FOUND).send({"error": "Contact doesnt exist"});
         }
-        const contact = await createOneContact({contact_userid, userid, name, publicKey: user.publicKey});
+        const contact = await createOne(Contact, {contact_userid, userid, name, publicKey: user.publicKey});
         if(!contact){
             throw new Error();
         }

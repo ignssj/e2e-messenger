@@ -1,8 +1,8 @@
-
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { deleteOne } from '../../repositories';
+import { Contact } from '../../models/contacts';
 import { IDelete } from '../../types';
-import { deleteOneContact } from '../../repositories/contacts';
 
 export const deleteById = async (req: Request<IDelete>, res: Response) => {
     const {id} = req.params;
@@ -10,7 +10,7 @@ export const deleteById = async (req: Request<IDelete>, res: Response) => {
         return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
     }
     try{
-        const deletedContact = await deleteOneContact(id);
+        const deletedContact = await deleteOne(Contact, id);
         if(!deletedContact){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'Contact not found'});
         }

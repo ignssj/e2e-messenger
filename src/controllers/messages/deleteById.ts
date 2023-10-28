@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {StatusCodes} from 'http-status-codes';
-import { deleteOneMessage } from '../../repositories/messages';
+import { deleteOne } from '../../repositories';
+import { Message } from '../../models/messages';
 import { IDelete } from '../../types';
 
 export const deleteById = async (req: Request<IDelete>, res: Response) => {
@@ -9,7 +10,7 @@ export const deleteById = async (req: Request<IDelete>, res: Response) => {
         return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
     }
     try{
-        const deletedMessage = await deleteOneMessage(id);
+        const deletedMessage = await deleteOne(Message, id);
         if(!deletedMessage){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'Message not found'});
         }

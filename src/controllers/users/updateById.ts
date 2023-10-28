@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IUser } from '../../models/users';
-import { updateOneUser } from '../../repositories/users';
+import { IUser, User } from '../../models/users';
+import { updateOne } from '../../repositories';
 import { IPut } from '../../types';
 import * as yup from 'yup';
 
@@ -23,7 +23,7 @@ export const updateById = async (req: Request<IPut, {}, IUser>, res: Response) =
         return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
     }
     try{
-        const updatedUser = await updateOneUser(id, {username, password});
+        const updatedUser = await updateOne(User, id, {username, password});
         if(!updatedUser){
             return res.status(StatusCodes.NOT_FOUND).send({error: "User not found"});
         }

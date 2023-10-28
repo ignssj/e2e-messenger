@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IMessage } from '../../models/messages';
-import { createOneMessage } from '../../repositories/messages';
+import { IMessage, Message } from '../../models/messages';
+import { createOne } from '../../repositories';
 import * as yup from 'yup';
 
 export const createValidation = validation((getSchema) => ({
@@ -16,7 +16,7 @@ export const createValidation = validation((getSchema) => ({
 export const createMessage = async(req: Request<{},{},IMessage>, res: Response) => {
     const {sender, receiver, payload} = req.body;
     try{
-        const savedMessage = await createOneMessage({sender, receiver, payload});
+        const savedMessage = await createOne(Message, {sender, receiver, payload});
         if(!savedMessage){
             throw new Error();
         }
