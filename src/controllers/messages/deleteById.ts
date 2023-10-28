@@ -2,23 +2,13 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import {StatusCodes} from 'http-status-codes';
-import { Message } from '../../models/messages';
-import * as yup from 'yup';
+import { IMessage, Message } from '../../models/messages';
+import { IDelete } from '../../types';
 
-interface IParam {
-    id?: string;
-}
-
-export const deleteByIdValidation = validation((getSchema) => ({
-    params: getSchema<IParam>(yup.object({
-        id: yup.string().required().nonNullable()
-    })),
-}));
-
-export const deleteById = async (req: Request<IParam>, res: Response) => {
+export const deleteById = async (req: Request<IDelete>, res: Response) => {
     try{
         const {id} = req.params;
-        const deletedMessage = await Message.findOneAndDelete({_id: id});
+        const deletedMessage = await Message.findOneAndDelete<IMessage>({_id: id});
         if(!deletedMessage){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'Message not found'});
         }

@@ -5,12 +5,6 @@ import { User, IUser } from '../../models/users';
 import bcrypt from 'bcrypt';
 import * as yup from 'yup';
 
-interface IBody {
-    username: string;
-    password: string;
-    publicKey: string;
-}
-
 export const createValidation = validation((getSchema) => ({
     body: getSchema<IUser>(yup.object({
         username: yup.string().required().min(6),
@@ -19,7 +13,7 @@ export const createValidation = validation((getSchema) => ({
     })),
 }));
 
-export const createUser = async (req: Request<{},{},IBody>, res: Response) => {
+export const createUser = async (req: Request<{},{},IUser>, res: Response) => {
     const {username, password, publicKey} = req.body;
     try{
         bcrypt.hash(password, 15, async function(err, hash) {

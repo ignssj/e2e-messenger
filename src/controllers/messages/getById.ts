@@ -1,20 +1,9 @@
-import {Request, Response} from 'express';
-import {StatusCodes} from 'http-status-codes';
-import {Message} from '../../models/messages';
-import {validation} from '../../middleware/requestValidation';
-import * as yup from 'yup';
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { Message } from '../../models/messages';
+import { IGet } from '../../types';
 
-interface IParamProps {
-    id?: string;
-}
-
-export const getByIdValidation = validation((getSchema) => ({
-    params: getSchema<IParamProps>(yup.object({
-        id: yup.string().required()
-    })),
-}));
-
-export const getById = async (req: Request<IParamProps>, res: Response) => {
+export const getById = async (req: Request<IGet>, res: Response) => {
     try{
         const {id} = req.params;
         const message = await Message.findById(id);

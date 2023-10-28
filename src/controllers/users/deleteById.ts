@@ -1,23 +1,12 @@
 import { Request, Response } from 'express';
-import { validation } from '../../middleware/requestValidation';
 import {StatusCodes} from 'http-status-codes';
-import { User } from '../../models/users';
-import * as yup from 'yup';
+import { IUser, User } from '../../models/users';
+import { IDelete } from '../../types';
 
-interface IParamProps {
-    id?: string;
-}
-
-export const deleteByIdValidation = validation((getSchema) => ({
-    params: getSchema<IParamProps>(yup.object({
-        id: yup.string().required().nonNullable()
-    })),
-}));
-
-export const deleteById = async (req: Request<IParamProps>, res: Response) => {
+export const deleteById = async (req: Request<IDelete>, res: Response) => {
     try{
         const {id} = req.params;
-        const deletedUser = await User.findOneAndDelete({_id: id});
+        const deletedUser = await User.findOneAndDelete<IUser>({_id: id});
         if(!deletedUser){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'User not found'});
         }

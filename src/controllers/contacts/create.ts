@@ -5,7 +5,6 @@ import { IContact, Contact } from '../../models/contacts';
 import { User } from '../../models/users';
 import * as yup from 'yup';
 
-
 export const addValidation = validation((getSchema) => ({
     body: getSchema<Partial<IContact>>(yup.object({
         userid: yup.string().required().min(15),
@@ -27,7 +26,6 @@ export const addContact = async (req: Request<{},{},IContact>, res: Response) =>
             throw new Error ();
         }
         return res.status(StatusCodes.CREATED).send(response);
-        //const contact = Contact.build({contact_userid: contact_userid, name, publicKey});
     }catch(err){
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Internal error"});
     }

@@ -4,12 +4,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Message, IMessage } from '../../models/messages';
 import * as yup from 'yup';
 
-interface IBody{
-    sender: string;
-    receiver: string;
-    payload: string;
-}
-
 export const createValidation = validation((getSchema) => ({
     body: getSchema<IMessage>(yup.object({
         sender: yup.string().required().min(24),
@@ -18,7 +12,7 @@ export const createValidation = validation((getSchema) => ({
     })),
 }));
 
-export const createMessage = async(req: Request<{},{},IBody>, res: Response) => {
+export const createMessage = async(req: Request<{},{},IMessage>, res: Response) => {
     try{
         const {sender, receiver ,payload} = req.body;
         const message = Message.build({sender, receiver, payload});

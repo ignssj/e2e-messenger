@@ -1,26 +1,26 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
+import { IContact, Contact } from '../../models/contacts';
 import { IPut } from '../../types';
-import { IMessage, Message } from '../../models/messages';
 import * as yup from 'yup';
 
 export const updateByIdValidation = validation((getSchema) => ({
     params: getSchema<IPut>(yup.object({
         id: yup.string().required(),
     })),
-    body: getSchema<IMessage>(yup.object({
-        sender: yup.string().required().min(24),
-        receiver: yup.string().required().min(24),
-        payload: yup.string().required().min(1)
+    body: getSchema<Partial<IContact>>(yup.object({
+        userid: yup.string().required().min(15),
+        contact_userid: yup.string().required().min(15),
+        name: yup.string().required().min(5),
     })),
 }));
 
-export const updateById = async (req: Request<IPut, {}, IMessage>, res: Response) => {
+export const updateById = async (req: Request<IPut, {}, IContact>, res: Response) => {
     const {id} = req.params;
-    const {sender, receiver, payload} = req.body;
+    const {userid, contact_userid, name} = req.body;
     try{
-        const updated = await Message.findOneAndUpdate({_id: id},{sender, receiver, payload},{new: true});
+        const updated = await Contact.findOneAndUpdate<IContact>({_id: id},{userid, contact_userid, name},{new: true});
         if(!updated){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }

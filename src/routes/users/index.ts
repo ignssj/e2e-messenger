@@ -1,9 +1,10 @@
 import express from 'express';
 import { tokenValidation } from '../../middleware/tokenValidation';
 import { UsersController } from '../../controllers';
+import { getAllValidation, getByIdValidation, deleteByIdValidation } from '../../middleware/restValidator';
 
 const router = express.Router();
-const {createValidation, getByIdValidation, getAllValidation, deleteByIdValidation, updateByIdValidation, createUser, getAll, getById, updateById, deleteById} = UsersController;
+const {createValidation, updateByIdValidation, createUser, getAll, getById, updateById, deleteById} = UsersController;
 
 router.post('', createValidation, createUser);
 router.get('', tokenValidation, getAllValidation, getAll);

@@ -1,28 +1,14 @@
 import { Request, Response } from 'express';
-import { validation } from '../../middleware/requestValidation';
-import {StatusCodes} from 'http-status-codes';
-import { User } from '../../models/users';
-import * as yup from 'yup';
+import { StatusCodes } from 'http-status-codes';
+import { IUser, User } from '../../models/users';
+import { IGetAll } from '../../types';
 
-interface IQueryProps {
-    page?: number;
-    limit?: number;
-    filter?: string;
-}
-
-export const getAllValidation = validation((getSchema) => ({
-    query: getSchema<IQueryProps>(yup.object({
-        page: yup.number().moreThan(0),
-        limit: yup.number().moreThan(0),
-        filter: yup.string()
-    })),
-}));
-
-export const getAll = async (req: Request<{},{},{},IQueryProps>, res: Response) => {
+export const getAll = async (req: Request<{},{},{},IGetAll>, res: Response) => {
+    const {limit=5, page=0, filter={}} = req.query;
     try{
         res.setHeader('access-control-expose-headers', 'x-total-count');
         res.setHeader('x-total-count', 1);
-        const users = await User.find();
+        const users = await User.find<IUser[]>();
         if(!users.length){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }
