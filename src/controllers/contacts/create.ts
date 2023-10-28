@@ -19,7 +19,7 @@ export const addContact = async (req: Request<{},{},IContact>, res: Response) =>
     try{
         const user = await findOne(Contact, contact_userid);
         if(!user){
-            return res.status(StatusCodes.NOT_FOUND).send({"error": "Contact doesnt exist"});
+            return res.status(StatusCodes.NOT_FOUND).send({error: "Contact does not exist"});
         }
         const contact = await createOne(Contact, {contact_userid, userid, name, publicKey: user.publicKey});
         if(!contact){
