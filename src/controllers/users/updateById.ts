@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
-import { IUser, User } from '../../models/users';
-import { IPut } from '../../types';
 import { StatusCodes } from 'http-status-codes';
+import { IUser } from '../../models/users';
+import { updateOneUser } from '../../repositories/users';
+import { IPut } from '../../types';
 import * as yup from 'yup';
 
 export const updateByIdValidation = validation((getSchema) => ({
@@ -16,15 +17,18 @@ export const updateByIdValidation = validation((getSchema) => ({
 }));
 
 export const updateById = async (req: Request<IPut, {}, IUser>, res: Response) => {
+    const {id} = req.params;
+    const {username, password} = req.body;
+    if(!id){
+        return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
+    }
     try{
-        const {id} = req.params;
-        const {username, password} = req.body;
-        const updatedUser = await User.findOneAndUpdate({_id: id},{username, password},{new: true});
+        const updatedUser = await updateOneUser(id, {username, password});
         if(!updatedUser){
-            return res.status(StatusCodes.NO_CONTENT).send({});
+            return res.status(StatusCodes.NOT_FOUND).send({error: "User not found"});
         }
         return res.status(StatusCodes.OK).send(updatedUser);
     }catch(err){
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Interal error"});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: "Interal error"});
     }
 };

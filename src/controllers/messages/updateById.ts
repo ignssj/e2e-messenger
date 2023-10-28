@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
+import { IMessage } from '../../models/messages';
+import { updateOneMessage } from '../../repositories/messages';
 import { IPut } from '../../types';
-import { IMessage, Message } from '../../models/messages';
 import * as yup from 'yup';
 
 export const updateByIdValidation = validation((getSchema) => ({
@@ -17,10 +18,13 @@ export const updateByIdValidation = validation((getSchema) => ({
 }));
 
 export const updateById = async (req: Request<IPut, {}, IMessage>, res: Response) => {
-    const {id} = req.params;
     const {sender, receiver, payload} = req.body;
+    const {id} = req.params;
+    if(!id){
+        return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
+    }
     try{
-        const updated = await Message.findOneAndUpdate({_id: id},{sender, receiver, payload},{new: true});
+        const updated = await updateOneMessage(id,{sender, receiver, payload});
         if(!updated){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }

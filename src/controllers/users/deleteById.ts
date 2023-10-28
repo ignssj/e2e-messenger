@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
-import {StatusCodes} from 'http-status-codes';
-import { IUser, User } from '../../models/users';
+import { StatusCodes } from 'http-status-codes';
+import { deleteOneUser } from '../../repositories/users';
 import { IDelete } from '../../types';
 
 export const deleteById = async (req: Request<IDelete>, res: Response) => {
+    const {id} = req.params;
+    if(!id){
+        return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
+    }
     try{
-        const {id} = req.params;
-        const deletedUser = await User.findOneAndDelete<IUser>({_id: id});
+        const deletedUser = await deleteOneUser(id);
         if(!deletedUser){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'User not found'});
         }

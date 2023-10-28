@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { User, IUser } from '../../models/users';
+import { IUser } from '../../models/users';
+import { createOneUser } from '../../repositories/users';
 import bcrypt from 'bcrypt';
 import * as yup from 'yup';
 
@@ -17,9 +18,11 @@ export const createUser = async (req: Request<{},{},IUser>, res: Response) => {
     const {username, password, publicKey} = req.body;
     try{
         bcrypt.hash(password, 15, async function(err, hash) {
-            const user = User.build({username, publicKey, password: hash});
-            const response = await user.save();
-            return res.status(StatusCodes.CREATED).send(response);
+            const user = await createOneUser({username, publicKey, password: hash});
+            if(!user){
+                throw new Error();
+            }
+            return res.status(StatusCodes.CREATED).send(user);
         });
     }catch(err){
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Interal error"})

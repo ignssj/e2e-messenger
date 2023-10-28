@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
-import { IContact, Contact } from '../../models/contacts';
-import { User } from '../../models/users';
+import { IContact } from '../../models/contacts';
+import { createOneContact } from '../../repositories/contacts';
+import { findOneUser } from '../../repositories/users';
 import * as yup from 'yup';
 
 export const addValidation = validation((getSchema) => ({
@@ -16,16 +17,15 @@ export const addValidation = validation((getSchema) => ({
 export const addContact = async (req: Request<{},{},IContact>, res: Response) => {
     const {contact_userid, name, userid} = req.body;
     try{
-        const user = await User.findById(contact_userid);
+        const user = await findOneUser(contact_userid);
         if(!user){
             return res.status(StatusCodes.NOT_FOUND).send({"error": "Contact doesnt exist"});
         }
-        const contact = Contact.build({contact_userid, userid, name, publicKey: user.publicKey});
-        const response = await contact.save();
-        if(!response){
-            throw new Error ();
+        const contact = await createOneContact({contact_userid, userid, name, publicKey: user.publicKey});
+        if(!contact){
+            throw new Error();
         }
-        return res.status(StatusCodes.CREATED).send(response);
+        return res.status(StatusCodes.CREATED).send(contact);
     }catch(err){
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({"error": "Internal error"});
     }

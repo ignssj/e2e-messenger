@@ -1,15 +1,13 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { IUser, User } from '../../models/users';
+import { findAllUsers } from '../../repositories/users';
 import { IGetAll } from '../../types';
 
 export const getAll = async (req: Request<{},{},{},IGetAll>, res: Response) => {
     const {limit=5, page=0, filter={}} = req.query;
     const offset = (page-1) * limit;
     try{
-        res.setHeader('access-control-expose-headers', 'x-total-count');
-        res.setHeader('x-total-count', 1);
-        const users = await User.find<IUser[]>(filter).skip(offset).limit(Number(limit)).exec();
+        const users = await findAllUsers(filter, offset, Number(limit));
         if(!users.length){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }

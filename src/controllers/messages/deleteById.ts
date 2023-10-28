@@ -1,14 +1,15 @@
-
 import { Request, Response } from 'express';
-import { validation } from '../../middleware/requestValidation';
 import {StatusCodes} from 'http-status-codes';
-import { IMessage, Message } from '../../models/messages';
+import { deleteOneMessage } from '../../repositories/messages';
 import { IDelete } from '../../types';
 
 export const deleteById = async (req: Request<IDelete>, res: Response) => {
+    const {id} = req.params;
+    if(!id){
+        return res.status(StatusCodes.BAD_REQUEST).send({error: 'userId is mandatory'});
+    }
     try{
-        const {id} = req.params;
-        const deletedMessage = await Message.findOneAndDelete<IMessage>({_id: id});
+        const deletedMessage = await deleteOneMessage(id);
         if(!deletedMessage){
             return res.status(StatusCodes.NOT_FOUND).send({msg: 'Message not found'});
         }
