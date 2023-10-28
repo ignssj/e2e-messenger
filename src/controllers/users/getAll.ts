@@ -5,10 +5,11 @@ import { IGetAll } from '../../types';
 
 export const getAll = async (req: Request<{},{},{},IGetAll>, res: Response) => {
     const {limit=5, page=0, filter={}} = req.query;
+    const offset = (page-1) * limit;
     try{
         res.setHeader('access-control-expose-headers', 'x-total-count');
         res.setHeader('x-total-count', 1);
-        const users = await User.find<IUser[]>();
+        const users = await User.find<IUser[]>(filter).skip(offset).limit(Number(limit)).exec();
         if(!users.length){
             return res.status(StatusCodes.NO_CONTENT).send({});
         }
