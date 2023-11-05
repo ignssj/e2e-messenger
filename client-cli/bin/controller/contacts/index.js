@@ -29,9 +29,14 @@ const getContact = (name) => {
 }
 
 const getAllContacts = async () => {
-  const [response] = await getRequest('/contacts?limit=10');
-  if(!response.contacts){
-    return console.log('No contacts found')
+  const [response, error] = await getRequest('/contacts?limit=10');
+
+  if(!response){
+    return console.log(error);
+  }
+
+  if(!response.length){
+    return console.log('No contacts found');
   }
 
   const contacts = response.contacts.map((contact) => {

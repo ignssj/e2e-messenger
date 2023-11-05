@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
-const { addContact, getAllContacts, removeContact} = require('./controller');
+const { addContact, getAllContacts, removeContact, login} = require('./controller');
 
 yargs
   .usage('Usage: $0 <command> [options]')
@@ -32,6 +32,22 @@ yargs.command('rm <name>', 'Removes a contact of your list', (yargs) => {
 })
 .help('h')
 .alias('h', 'help')
+
+yargs.command('login <username> <password>', 'Authenticates an user', (yargs) => {
+    yargs
+      .positional('username', {
+        describe: 'Your username',
+        type: 'string'
+      })
+      .positional('password', {
+        describe: 'Your password',
+        type: 'string'
+      });
+  }, (argv) => {
+    login(argv.username, argv.password);
+  })
+  .help('h')
+  .alias('h', 'help')
 
 yargs.command('clist', 'Prints your contact list', {}, () => {
   getAllContacts();

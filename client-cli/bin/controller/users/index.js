@@ -1,11 +1,14 @@
 const { getRequest, postRequest, deleteRequest} = require('../../service');
+const fs = require('fs')
 
-const getUser = async (id) => {
-  console.log('getting a user');
-  const user = await getRequest(`/users/${id}`);
+const login = async (username, password) => {
+  const user = await postRequest(`/auth`, {username, password});
+  if(user){
+    fs.writeFileSync('./bin/store/user_data.json', JSON.stringify(user));
+  }
   return user || false;
 }
 
 module.exports = {
-  getUser,
+  login,
 }

@@ -3,7 +3,8 @@ const {api} = require('./api');
 const getRequest = async (endpoint) => {
     try{
         const response = await api.get(endpoint);
-        return [response.data];
+        contacts = response.data || []
+        return [contacts];
     }catch(err){
         return [false, err.response.data.error];
     }
