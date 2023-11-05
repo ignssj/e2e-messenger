@@ -3,7 +3,7 @@ import { validation } from '../../middleware/requestValidation';
 import { StatusCodes } from 'http-status-codes';
 import { IContact, Contact } from '../../models/contacts';
 import { User } from '../../models/users';
-import { createOne } from '../../repositories';
+import { createOne, findAll } from '../../repositories';
 import { findOne } from '../../repositories';
 import * as yup from 'yup';
 
@@ -21,6 +21,10 @@ export const addContact = async (req: Request<{},{},IContact>, res: Response) =>
         const user = await findOne(User, contact_userid);
         if(!user){
             return res.status(StatusCodes.NOT_FOUND).send({error: "Contact does not exist"});
+        }
+        const isAdded = await findAll(Contact, {contact_userid}, 0, 1);
+        if(isAdded){
+            return res.status(StatusCodes.NOT_FOUND).send({error: "This user is already added to your contact list"});
         }
         const contact = await createOne(Contact, {contact_userid, userid, name, publicKey: user.publicKey});
         if(!contact){
