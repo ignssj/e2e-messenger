@@ -1,0 +1,17 @@
+{
+  "name": "e2e-cli",
+  "version": "1.0.0",
+  "description": "cli for e2e-messager",
+  "main": "bin/app.js",
+  "author": "ignacio",
+  "license": "MIT",
+  "private": false,
+  "bin": {
+    "e2e": "./bin/app.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "yargs": "^17.7.2"
+  }
+}
