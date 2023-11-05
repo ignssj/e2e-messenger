@@ -11,12 +11,12 @@ export const tokenValidation = async (req: Request, res: Response, next: NextFun
     try{
         const token = req.header('Authorization')?.replace('Bearer ', '');
         if(!token){
-           return res.status(StatusCodes.BAD_REQUEST).send({msg: 'Missing token'});        
+           return res.status(StatusCodes.BAD_REQUEST).send({error: 'Missing token'});        
         }
         const decoded = jwt.verify(token, key);
         (req as CustomRequest).token = decoded;
         next();
     }catch(err){
-        return res.status(StatusCodes.UNAUTHORIZED).send({msg: 'Invalid token'});
+        return res.status(StatusCodes.UNAUTHORIZED).send({error: 'Invalid token'});
     }
 } 
