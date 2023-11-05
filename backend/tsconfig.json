@@ -14,7 +14,7 @@
   "exclude": [
     "./jest.config.ts",
     "./node_modules",
-    "./tests",
+    "./___tests___",
     "./build"
 ],
   "ts-node": { "transpileOnly": true }
