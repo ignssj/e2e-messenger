@@ -13,7 +13,7 @@ const getRequest = async (endpoint) => {
 const postRequest = async (endpoint, body) => {
     try{
         const response = await api.post(endpoint, body);
-        return response.data;
+        return [response.data];
     }catch(err){
         return [false, err.response.data.error];
     }

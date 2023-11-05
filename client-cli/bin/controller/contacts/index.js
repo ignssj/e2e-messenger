@@ -1,5 +1,5 @@
 const { getRequest, postRequest, deleteRequest} = require('../../service');
-const { getUser } = require('../users');
+const { getUser } = require('../auth');
 const {USER_ID} = require('../../store');
 
 const addContact = async (name, id) => {
