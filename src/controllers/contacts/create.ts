@@ -22,9 +22,9 @@ export const addContact = async (req: Request<{},{},IContact>, res: Response) =>
         if(!user){
             return res.status(StatusCodes.NOT_FOUND).send({error: "Contact does not exist"});
         }
-        const isAdded = await findAll(Contact, {contact_userid}, 0, 1);
-        if(isAdded){
-            return res.status(StatusCodes.NOT_FOUND).send({error: "This user is already added to your contact list"});
+        const isAdded = await findAll(Contact, {contact_userid, userid}, 0, 1);
+        if(isAdded.length){
+            return res.status(StatusCodes.BAD_REQUEST).send({error: "This user is already added to your contact list"});
         }
         const contact = await createOne(Contact, {contact_userid, userid, name, publicKey: user.publicKey});
         if(!contact){
