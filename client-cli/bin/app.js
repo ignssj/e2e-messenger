@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
-const { addContact, getAllContacts, removeContact, login, logout, createUser} = require('./controller');
+const { addContact, getAllContacts, removeContact, login, logout, createUser, sendMessage} = require('./controller');
 
 yargs
   .usage('Usage: $0 <command> [options]')
@@ -63,6 +63,22 @@ yargs.command('login <username> <password>', 'Authenticates an user', (yargs) =>
       });
   }, (argv) => {
     login(argv.username, argv.password);
+  })
+  .help('h')
+  .alias('h', 'help')
+
+yargs.command('send <name> <message>', 'Sends an encrypted message', (yargs) => {
+    yargs
+      .positional('name', {
+        describe: 'Your contact\'s name',
+        type: 'string'
+      })
+      .positional('message', {
+        describe: 'Your message',
+        type: 'string'
+      });
+  }, (argv) => {
+    sendMessage(argv.name, argv.message);
   })
   .help('h')
   .alias('h', 'help')

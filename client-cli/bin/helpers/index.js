@@ -25,11 +25,11 @@ const readUserProperty = (property) => {
 
 const writeProperty = (property, value) => {
     userData[property] = value;
-    fs.writeFileSync('./client-cli/bin/store/user_data.json', JSON.stringify(userData));
+    fs.writeFileSync('./bin/store/user_data.json', JSON.stringify(userData));
 }
 
 const removeUserData = () => {
-    fs.writeFileSync('./client-cli/bin/store/user_data.json', JSON.stringify({}));
+    fs.writeFileSync('./bin/store/user_data.json', JSON.stringify({}));
 }
 
 module.exports = {

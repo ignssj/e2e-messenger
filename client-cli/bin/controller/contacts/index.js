@@ -34,8 +34,7 @@ const getAllContacts = async () => {
   if(!response){
     return console.log(error);
   }
-
-  if(!response.length){
+  if(!response.contacts.length){
     return console.log('No contacts found');
   }
 
