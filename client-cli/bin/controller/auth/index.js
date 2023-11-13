@@ -1,23 +1,26 @@
 const { getRequest, postRequest, deleteRequest} = require('../../service');
-const { writeProperty, removeUserData } = require('../../helpers');
+const { writeSession, removeSession } = require('../../helpers');
 const { TOKEN } = require('../../store');
 
 const login = async (username, password) => {
     if(TOKEN){
         return console.log('You are already authenticated');
     }
-    const user = await postRequest(`/auth`, {username, password});
-    if(user){
-        writeProperty('token', user[0].token);
+    const [response] = await postRequest(`/auth`, {username, password});
+    if(response){
+        writeSession('passphrase', password);
+        writeSession('token', response.token);
+        writeSession('userId', response.userId);
+        return console.log(`Welcome to e2e messager, ${username}!`);
     }
-    return console.log(`Welcome to e2e messager, ${username}!`) || false;
+    return console.log('Wrong credentials');
 }
 
 const logout = () => {
     if(!TOKEN){
         return console.log('You are not authenticated');
     }
-    removeUserData();
+    removeSession();
     return console.log('Good bye!');
 }
 

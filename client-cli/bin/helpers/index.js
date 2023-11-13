@@ -1,6 +1,6 @@
-const { generateKeyPairSync } = require('node:crypto');
+const { generateKeyPairSync, publicEncrypt, privateDecrypt, constants, privateEncrypt, publicDecrypt } = require('node:crypto');
 const fs = require('fs');
-const userData = require('../store/user_data.json');
+const session = require('../store/session.json');
 
 const createKeyPair = (passphrase) => {
     const {publicKey, privateKey } = generateKeyPairSync('rsa', {
@@ -13,28 +13,58 @@ const createKeyPair = (passphrase) => {
           type: 'pkcs8',
           format: 'pem',
           cipher: 'aes-256-cbc',
-          passphrase: passphrase
+          passphrase: passphrase,
         },
       });
       return {publicKey, privateKey};
 }
 
-const readUserProperty = (property) => {
-    return userData[property] !== undefined;
+const readSession = (property) => {
+    return session[property];
 }
 
-const writeProperty = (property, value) => {
-    userData[property] = value;
-    fs.writeFileSync('./bin/store/user_data.json', JSON.stringify(userData));
+const writeSession = (property, value) => {
+    session[property] = value;
+    fs.writeFileSync('./bin/store/session.json', JSON.stringify(session));
 }
 
-const removeUserData = () => {
-    fs.writeFileSync('./bin/store/user_data.json', JSON.stringify({}));
+const writeSecret = (name, key) => {
+    fs.writeFileSync(`./bin/store/${name}.pem`, key);
+};
+
+const removeSession = () => {
+    fs.writeFileSync('./bin/store/session.json', JSON.stringify({}));
+}
+
+const encryptMessage = (message) => {
+    const private = fs.readFileSync('./bin/store/private.pem');
+    const encryptedBuffer = privateEncrypt({
+        key: private,
+        passphrase: readSession('passphrase'),
+        padding: constants.RSA_PKCS1_PADDING,
+    }, Buffer.from(message, 'utf8'));
+    return encryptedBuffer.toString('base64');
+}
+
+const decryptMessage = (encryptedMessage, publicKey) => {
+    try{
+        const encryptedBuffer = Buffer.from(encryptedMessage, 'base64');
+        const decryptedBuffer = publicDecrypt({
+            key: publicKey,
+            padding: constants.RSA_PKCS1_PADDING,
+        }, encryptedBuffer);
+        return decryptedBuffer.toString('utf8');
+    }catch(err){
+        console.log(err);
+    }
 }
 
 module.exports = {
     createKeyPair,
-    readUserProperty,
-    writeProperty,
-    removeUserData,
+    readSession,
+    writeSession,
+    writeSecret,
+    removeSession,
+    encryptMessage,
+    decryptMessage,
 }

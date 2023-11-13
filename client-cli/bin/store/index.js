@@ -1,8 +1,8 @@
 require('dotenv').config()
-const user_data = require('./user_data.json');
+const session = require('./session.json');
 
 const USER_ID = process.env.USER_ID || 123;
-const TOKEN = user_data.token;
+const TOKEN = session.token;
 
 module.exports ={
     USER_ID,

@@ -1,13 +1,13 @@
-const { getRequest, postRequest, deleteRequest} = require('../../service');
-const { createKeyPair, readUserProperty, writeProperty} = require('../../helpers');
-const { USER_ID } = require('../../store');
+const { postRequest } = require('../../service');
+const { createKeyPair, readSession, writeSecret } = require('../../helpers');
 
 const createUser = async (username, password) => {
     console.log('creating new user');
-    const propExists = readUserProperty('privateKey');
+    const propExists = readSession('token');
     if(!propExists){
         const {publicKey, privateKey} = createKeyPair(password);
-        writeProperty('privateKey', privateKey);
+        writeSecret('private', privateKey);
+        writeSecret('public', publicKey);
         const [response, message] = await postRequest('/users', {username, password, publicKey});
         return response ? console.log(`Welcome to e2e messager, ${username}!'`) : console.log(message)
     }
@@ -15,5 +15,5 @@ const createUser = async (username, password) => {
 }
 
 module.exports = {
-  createUser,
+    createUser,
 }

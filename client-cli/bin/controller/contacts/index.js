@@ -1,6 +1,7 @@
 const { getRequest, postRequest, deleteRequest} = require('../../service');
 const { getUser } = require('../auth');
 const {USER_ID} = require('../../store');
+const { readSession } = require('../../helpers');
 
 const addContact = async (name, id) => {
   const body = {
@@ -24,27 +25,29 @@ const removeContact = async (name) => {
   return console.log('Contact deleted');
 }
 
-const getContact = (name) => {
-  console.log('getting a contact');
+const getContact = async(name) => {
+    const [response] = await getRequest(`/contacts?limit=1&name=${name}`);
+    return response.contacts[0] || {};
 }
 
 const getAllContacts = async () => {
-  const [response, error] = await getRequest('/contacts?limit=10');
+    const myId = readSession('userId');
+    const [response, error] = await getRequest(`/contacts?limit=10&userid=${myId}`);
 
-  if(!response){
+    if(!response){
     return console.log(error);
-  }
-  if(!response.contacts.length){
-    return console.log('No contacts found');
-  }
-
-  const contacts = response.contacts.map((contact) => {
-    return {
-      name: contact.name,
-      contact_userid: contact.contact_userid
     }
-  });
-  return console.log('Your contacts:\n', contacts)
+    if(!response.contacts.length){
+    return console.log('No contacts found');
+    }
+
+    const contacts = response.contacts.map((contact) => {
+    return {
+        name: contact.name,
+        contact_userid: contact.contact_userid
+    }
+    });
+    return console.log('Your contacts:\n', contacts)
 }
 
 module.exports = {
