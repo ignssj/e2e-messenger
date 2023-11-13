@@ -5,7 +5,7 @@ import { Contact } from '../../models/contacts';
 import { IGetAll } from '../../types';
 
 export const getAll = async (req: Request<{}, {}, {}, IGetAll>, res: Response) => {
-    const {limit=1, page=1, filter={}} = req.query;
+    const {limit=1, page=1, ...filter} = req.query;
     const offset = (page-1) * limit;
     try{
         const contacts = await findAll(Contact, filter, offset, Number(limit));
