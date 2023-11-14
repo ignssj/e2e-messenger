@@ -5,8 +5,8 @@ const { createValidation, createMessage, getAll, getById, updateByIdValidation, 
 
 const router = express.Router();
 
-router.post('', createValidation, createMessage);
-router.get('', getAllValidation, getAll);
+router.post('/', createValidation, createMessage);
+router.get('/', getAllValidation, getAll);
 router.get('/:id', getByIdValidation, getById);
 router.put('/:id', updateByIdValidation, updateById);
 router.delete('/:id', deleteByIdValidation, deleteById);

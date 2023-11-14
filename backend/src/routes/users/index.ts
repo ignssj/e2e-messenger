@@ -6,8 +6,8 @@ import { getAllValidation, getByIdValidation, deleteByIdValidation } from '../..
 const router = express.Router();
 const {createValidation, updateByIdValidation, createUser, getAll, getById, updateById, deleteById} = UsersController;
 
-router.post('', createValidation, createUser);
-router.get('', tokenValidation, getAllValidation, getAll);
+router.post('/', createValidation, createUser);
+router.get('/', tokenValidation, getAllValidation, getAll);
 router.get('/:id', tokenValidation, getByIdValidation, getById);
 router.put('/:id', tokenValidation, updateByIdValidation, updateById);
 router.delete('/:id', tokenValidation, deleteByIdValidation, deleteById);
