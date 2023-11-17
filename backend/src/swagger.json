@@ -49,15 +49,32 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal error"
                     }
                 }
             },
             "get": {
                 "summary": "Get all users",
-                "description": "Get all users. Optionally expects a filter",
+                "description": "Get all users. Optionally expects a filter. If not provided, page and limit will be 1 and 5, respectively.",
                 "tags": ["Users"],
                 "security": [{"bearerAuth": [] }],
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Returning page's number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit of elements in each page",
+                        "required": false,
+                        "type": "integer"
+                    },
                     {
                         "name": "_id",
                         "in": "query",
@@ -243,7 +260,7 @@
         },
         "/contacts": {
             "post": {
-                "summary": "Creates an contact",
+                "summary": "Creates a contact",
                 "tags": ["Contacts"],
                 "security": [{"bearerAuth": [] }],
                 "requestBody": {
@@ -275,15 +292,32 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal error"
                     }
                 }
             },
             "get": {
                 "summary": "Get all contacts",
-                "description": "Get all contacts. Optionally expects a filter",
+                "description": "Get all contacts. Optionally expects a filter. If not provided, page and limit will be 1 and 5, respectively.",
                 "tags": ["Contacts"],
                 "security": [{"bearerAuth": [] }],
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Returning page's number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit of elements in each page",
+                        "required": false,
+                        "type": "integer"
+                    },
                     {
                         "name": "_id",
                         "in": "query",
@@ -359,8 +393,8 @@
         },
         "/contacts/{id}": {
             "get": {
-                "summary": "Get an contact",
-                "description": "Get an contact by ID",
+                "summary": "Get a contact",
+                "description": "Get a contact by ID",
                 "tags": ["Contacts"],
                 "security": [{"bearerAuth": []}],
                 "parameters": [{
@@ -397,8 +431,8 @@
                 }
             },
             "put": {
-                "summary": "Update an contact",
-                "description": "Updates an contact by ID",
+                "summary": "Update a contact",
+                "description": "Updates a contact by ID",
                 "tags": ["Contacts"],
                 "security": [{"bearerAuth": []}],
                 "parameters": [{
@@ -444,8 +478,8 @@
                 }
             },
             "delete": {
-                "summary": "Delete an contact",
-                "description": "Deletes an contact by ID",
+                "summary": "Delete a contact",
+                "description": "Deletes a contact by ID",
                 "tags": ["Contacts"],
                 "security": [{"bearerAuth": []}],
                 "parameters": [{
@@ -458,6 +492,252 @@
                 "responses": {
                     "203": {
                         "description": "Contact deleted succesfully"
+                    },
+                    "400": {
+                        "description": "Missing id"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            }
+        },
+        "/messages": {
+            "post": {
+                "summary": "Creates a message",
+                "tags": ["Messages"],
+                "security": [{"bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Message"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "sender": "653c39ec4184a07a6486fdd7",
+                                        "receiver": "653c3a354184a07a6486fddb",
+                                        "payload": "hello e2e"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact not found. The receiver needs to be in your contacts list if you want to send him messages."
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get all messages",
+                "description": "Get all messages. Optionally expects a filter, page and limit. If not provided, page and limit will be 1 and 5, respectively.",
+                "tags": ["Messages"],
+                "security": [{"bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Returning page's number",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit of elements in each page",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "description": "ID of message to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "sender",
+                        "in": "query",
+                        "description": "Sender of message to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "receiver",
+                        "in": "query",
+                        "description": "Receiver of message to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "payload",
+                        "in": "query",
+                        "description": "Payload of message to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "createdAt",
+                        "in": "query",
+                        "description": "CreatedAt of message to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updateAt",
+                        "in": "query",
+                        "description": "UpdateAt of message to find",
+                        "required": false,
+                        "type": "string"
+                    }
+            ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Message"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            }
+        },
+        "/messages/{id}": {
+            "get": {
+                "summary": "Get a message",
+                "description": "Get a message by ID",
+                "tags": ["Messages"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of message to update",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing id"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Message not found"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a message",
+                "description": "Updates a message by ID",
+                "tags": ["Messages"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of message to update",
+                    "required": true,
+                    "type": "string"
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Message"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing id"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Contact not found"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a message",
+                "description": "Deletes a message by ID",
+                "tags": ["Messages"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of message to update",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "203": {
+                        "description": "Message deleted succesfully"
                     },
                     "400": {
                         "description": "Missing id"
