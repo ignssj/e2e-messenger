@@ -3,6 +3,6 @@ import { AuthController } from '../../controllers';
 
 const router = express.Router();
 const {authenticate, updateByIdValidation} = AuthController;
-router.post('', updateByIdValidation, authenticate);
+router.post('/', updateByIdValidation, authenticate);
 
 export default router;

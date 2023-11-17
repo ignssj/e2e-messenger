@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import mongoose from './config/db/';
 import routers from './routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './swagger.json';
 
 dotenv.config();
 
@@ -20,5 +22,6 @@ server.use(cors());
 server.use(helmet());
 server.use(express.json());
 server.use("/api", routers);
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 export default server;

@@ -9,12 +9,10 @@
     "dev": "npx nodemon src/app.ts --watch 'src/' -e ts",
     "build": "rm -r ./build && npx tsc",
     "start": "node ./build/app.js",
-    "test": "jest --runInBand --force-exit",
-    "swagger": "ts-node src/docs/index.ts"
+    "test": "jest --runInBand --force-exit"
   },
   "dependencies": {
     "@types/jest": "^29.5.5",
-    "@types/swagger-ui-express": "^4.1.6",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -27,7 +25,6 @@
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",
     "morgan": "^1.10.0",
-    "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.0",
     "ts-jest": "^29.1.1",
     "yup": "^1.3.0"
@@ -41,6 +38,7 @@
     "@types/jsonwebtoken": "^9.0.3",
     "@types/morgan": "^1.9.5",
     "@types/supertest": "^2.0.13",
+    "@types/swagger-ui-express": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "eslint": "^8.50.0",
