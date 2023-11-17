@@ -15,6 +15,35 @@
         }
     ],
     "paths": {
+        
+        "/auth": {
+            "post": {
+                "summary": "Authenticates an user",
+                "description": "Authenticates an user returning user's id and a JWT",
+                "tags": ["Auth"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "schema": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "password": {
+                                        "schema": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "summary": "Creates an user",
