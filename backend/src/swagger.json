@@ -54,8 +54,53 @@
             },
             "get": {
                 "summary": "Get all users",
+                "description": "Get all users. Optionally expects a filter",
                 "tags": ["Users"],
                 "security": [{"bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "query",
+                        "description": "ID of user to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "Username of user to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password of user to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "publicKey",
+                        "in": "query",
+                        "description": "PublicKey of user to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "createdAt",
+                        "in": "query",
+                        "description": "CreatedAt of user to find",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updateAt",
+                        "in": "query",
+                        "description": "UpdateAt of user to find",
+                        "required": false,
+                        "type": "string"
+                    }
+            ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -196,7 +241,6 @@
                 }
             }
         }
-
     },
     "components": {
         "schemas": {
