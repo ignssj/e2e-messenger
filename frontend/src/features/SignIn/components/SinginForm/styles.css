@@ -17,13 +17,14 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 3px;
+    color: black;
   }
   
   .login-button {
     margin-top: 10px;
     width: 100%;
     padding: 10px;
-    background-color: #4caf50;
+    background-color: #0388fc;
     color: white;
     border: none;
     border-radius: 3px;
