@@ -6,6 +6,7 @@ import SignIn from './features/SignIn/index.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import { store } from './redux/store.ts';
+import SignUp from './features/SignUp/index.tsx'
 
 const router = createBrowserRouter(
     [
@@ -17,6 +18,10 @@ const router = createBrowserRouter(
                     path: '/',
                     element: <SignIn/>
                 },
+                {
+                    path: '/signup',
+                    element: <SignUp/>
+                }
             ],
         },
     ]);

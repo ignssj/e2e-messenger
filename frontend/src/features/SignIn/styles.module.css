@@ -1,4 +1,42 @@
+
+.userForm {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
 .h2 {
     text-align: center;
     padding-bottom: 15px;
 }
+
+.loginButton {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #0388fc;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .registerLink {
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .registerLink text, button {
+    color: #007bff;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  
+  .registerLink button:hover {
+    color: #0056b3;
+  }
