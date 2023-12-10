@@ -24,4 +24,9 @@ server.use(express.json());
 server.use("/api", routers);
 server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-export default server;
+const closeMongoConnection = () => {
+    db.close(false);
+    console.log('MongoDB connection closed.');
+}
+
+export {server, closeMongoConnection};
