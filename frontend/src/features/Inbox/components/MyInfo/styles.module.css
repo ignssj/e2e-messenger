@@ -1,0 +1,29 @@
+.borderContainer {
+    padding: 15px;
+    display: flex;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #112233;
+    border-color: #0074D9;
+    border-width: 1.5px;
+    border-radius: 5px;
+    border-style: solid;
+    align-items: center;
+}
+
+.rounded {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #3FB8AF;
+    width: 40px;
+    height: 40px;
+}
+
+.textContainer {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}

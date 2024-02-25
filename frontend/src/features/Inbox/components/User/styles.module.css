@@ -1,0 +1,33 @@
+.notSelected {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #112233;
+    align-items: center;
+    padding: 1rem;
+}
+
+.selected {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #23476b;
+    align-items: center;
+}
+
+.rounded {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #3498DB;
+    width: 40px;
+    height: 40px;
+}
+
+.textContainer {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}

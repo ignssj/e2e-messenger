@@ -7,8 +7,8 @@ const useAuthService = () => {
         try{
             const response = await api.post(`/auth`, {username, password});
             return response.data;
-        }catch(err){
-            console.error(err);
+        }catch(err: unknown){
+            console.error((err as Error).message);
             return false;
         }
     }

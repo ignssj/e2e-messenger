@@ -1,18 +1,17 @@
-import './index.css'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import SignIn from './features/SignIn/index.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import { store } from './redux/store.ts';
+import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import SignIn from './features/SignIn/index.tsx'
 import SignUp from './features/SignUp/index.tsx'
+import Inbox from './features/Inbox/index.tsx'
 
 const router = createBrowserRouter(
     [
         {
             path: '/',
-            element: <App/>,
             children: [
                 {
                     path: '/',
@@ -21,6 +20,10 @@ const router = createBrowserRouter(
                 {
                     path: '/signup',
                     element: <SignUp/>
+                },
+                {
+                    path: '/inbox',
+                    element: <Inbox></Inbox>
                 }
             ],
         },

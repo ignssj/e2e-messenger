@@ -12,13 +12,11 @@ const useSignIn = () => {
     const [password, setPassword] = useState<string>('');
 
     
-    const handleLoginClick = async (username: string, password: string) => {
+    const handleLoginClick = async () => {
         const isAuth = await authUser(username, password);
-        if(isAuth){
-            dispatch(login({userId: isAuth.userId, username, password, token: isAuth.token}));
-            return true;
-        }
-        return false;
+        if(!isAuth) return;
+        dispatch(login({userId: isAuth.userId, username, password, token: isAuth.token}));
+        navigate('/inbox');
     }
     
     const handleRegisterClick = () => {
@@ -34,8 +32,6 @@ const useSignIn = () => {
     }
 
     return {
-        username,
-        password,
         handlePasswordChange,
         handleUsernameChange,
         handleLoginClick,

@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 95vh;
+    margin: 1rem;
+}
+
+.rightContainer {
+    display: flex;
+    width: 80vw;
+    background-color: #112233;
+    border-color: #0074D9;
+    border-width: 1.5px;
+    border-radius: 5px;
+    border-style: solid;
+}
+
+.leftContainer {
+    display: flex;
+    flex-direction: column;
+    width: 17vw;
+    gap: 1rem;
+}
+
+.chatList {
+    display: flex;
+    flex-direction: column;
+    background-color: #112233;
+    border-color: #0074D9;
+    border-width: 1.5px;
+    border-radius: 5px;
+    border-style: solid;
+    height: 84.25vh;
+    justify-content: space-between;
+}

@@ -1,0 +1,3 @@
+interface INewChat {
+    onClick: () => void;
+}

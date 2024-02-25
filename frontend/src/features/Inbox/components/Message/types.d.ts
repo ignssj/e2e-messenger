@@ -1,0 +1,1 @@
+type ChatMessage = Omit<Message, 'receiver'>;
