@@ -8,6 +8,7 @@
 
 .rightContainer {
     display: flex;
+    flex-direction: column;
     width: 80vw;
     background-color: #112233;
     border-color: #0074D9;

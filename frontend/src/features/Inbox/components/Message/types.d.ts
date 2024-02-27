@@ -1,1 +1,2 @@
-type ChatMessage = Omit<Message, 'receiver'>;
+type ChatMessage = Omit<Message, 'receiver' | 'sender'> & 
+{ sentByMe: boolean };

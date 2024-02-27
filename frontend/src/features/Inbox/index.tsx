@@ -3,6 +3,7 @@ import ChatList from "./components/ChatList";
 import MyInfo from "./components/MyInfo";
 import NewChat from "./components/NewChat";
 import Chat from "./components/Chat";
+import ChatHeader from "./components/ChatHeader";
 
 const Inbox = () => {
   return (
@@ -15,6 +16,7 @@ const Inbox = () => {
             </div>
         </div>
         <div className={styles.rightContainer}>
+            <ChatHeader status userId="John D"/>
             <Chat messages={[{_id: 'asdnasd2', createdAt: new Date().toISOString(), payload: 'hey thereeeeeeeeeee', receiver: 'teuPrimo', sender: 'meuPrimo'}]}/>
         </div>
     </div>
